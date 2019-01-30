@@ -97,7 +97,7 @@ address2 varchar(55),
 district varchar(55),
 city_id Int,
 postal_code int,
-phone int,
+phone int (10) not null,
 location blob,
 last_update int datetime);
 
@@ -156,10 +156,71 @@ FROM film
 				FROM film 
 				WHERE language_id=1);
                 
+select first_name, last_name
+from actor
+fi
 
-                
-                
-                
+#SELECT title, (SELECT COUNT(*) FROM inventory WHERE film.film_id = inventory.film_id ) AS 'Number of Copies'
+#FROM film;
+
+#. Use subqueries to display all actors who appear in the film Alone Trip
+select first_name, last_name
+from actor
+	where actor_id IN (
+		select film_id
+		from film_actor
+where actor_id IN (
+select
+film_id
+from film
+where title="Alone Trip"));
+
+# You want to run an email marketing campaign in Canada, 
+#for which you will need the names and email addresses of all Canadian customers. Use joins to retrieve this information.
+select 
+a.first_name,
+a.last_name,
+a.email,
+d.country
+
+from customer a 
+Left join address b on a.address_id=b.address_id
+Left join city c on b.city_id=c.city_id
+Left join country d on c.country_id=d.country_id
+where country="Canada"
+
+
+#Sales have been lagging among young families, and you wish to target all family movies for a promotion. 
+#Identify all movies categorized as family films.       
+
+select title, description
+from film 
+where film_id IN(
+select film_id from film_category
+where category_id IN(       
+select 
+category_id from category
+where name= 'family'));
+
+#Display the most frequently rented movies in descending order
+
+select 
+a.title, 
+count(c.rental_id) as rental_cnt
+from film a 
+inner join inventory b on a.film_id=b.film_id
+inner join rental c  on b.inventory_id=c.inventory_id
+group by 1
+order by 'rental_cnt' desc
+
+#Write a query to display how much business, in dollars, each store brought in.       
+         
+       
+         
+         
+         
+
+
                 
                 
                 
