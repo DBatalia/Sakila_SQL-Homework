@@ -156,9 +156,6 @@ FROM film
 				FROM film 
 				WHERE language_id=1);
                 
-select first_name, last_name
-from actor
-fi
 
 #SELECT title, (SELECT COUNT(*) FROM inventory WHERE film.film_id = inventory.film_id ) AS 'Number of Copies'
 #FROM film;
@@ -211,18 +208,68 @@ from film a
 inner join inventory b on a.film_id=b.film_id
 inner join rental c  on b.inventory_id=c.inventory_id
 group by 1
-order by 'rental_cnt' desc
+order by count(c.rental_id) desc;
 
 #Write a query to display how much business, in dollars, each store brought in.       
-         
+ select a.store_id,
+sum(b.amount) as totl_amt
+ from store a
+ inner join staff b on a.staff_id=b.staff_id
+ inner join payment b on a.store_id=
+ inner join inventory on store_id
+ where 
        
-         
-         
-         
+       
+# Write a query to display for each store its store ID, city, and country
+select    
+a.store_id,
+d.city,
+e.country
+from store a
+inner customer b on a.store_id = b.store_id
+inner staff c on b.address_id = c.address_id
+inner join city d on a.city_id = d.city_id 
+inner join country e on d.country_id=e.country_id
+
+#List the top five genres in gross revenue in descending order
+select 
+a.name,
+sum(e.amount) as total_revenue
+from category a
+inner join film_category b on a.category_id=b.category_id
+inner join inventory c on b.film_id = c.film_id
+inner join rental d on c.inventory_id= d.inventory_id
+inner join payment e on d.customer_id=e.customer_id
+#where customer_id <5
+Group by 1
+order by 1 
+limit 5
 
 
-                
-                
+
+
+# 8. Create a view
+use sakila; 
+
+create view  topfivegenre as 
+select 
+a.name,
+sum(e.amount) as total_revenue
+from category a
+inner join film_category b on a.category_id=b.category_id
+inner join inventory c on b.film_id = c.film_id
+inner join rental d on c.inventory_id= d.inventory_id
+inner join payment e on d.customer_id=e.customer_id
+#where customer_id <5
+Group by 1
+order by 1 
+limit 5;
+
+# Display the view
+select * from topfivegenre
+ 
+ # delect the view
+drop view topfivegenre
                 
                 
                 
